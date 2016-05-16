@@ -116,4 +116,7 @@ typings install es6-promise --save
 typings install registry:env/meteor --ambient
 typings install es6-shim --ambient --save
 
+echo 'Installing Twitter Bootstrap 3'
+meteor add twbs:bootstrap
+
 echo 'Done!'
