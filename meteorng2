@@ -80,7 +80,7 @@ echo 'Installing TypeScript, Angular 2 runtime, compilers, and templates'
 meteor add angular2-compilers barbatus:angular2-runtime
 meteor npm install angular2-meteor @angular/platform-browser-dynamic --save
 meteor npm install angular2-meteor-auto-bootstrap --save
-meteor npm install @angular2/router-deprecated --save
+meteor npm install @angular/router-deprecated --save
 meteor npm install
 
 echo 'Create default tsconfig.json'
