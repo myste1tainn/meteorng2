@@ -1,0 +1,119 @@
+#!/bin/bash
+
+echo $1
+
+if [ "$1" = '' ]; then
+	echo 'Missing 1 argument `Proejct name`'
+	exit;
+fi
+
+#
+echo 'Creating project' $1
+meteor create $1
+echo 'Done!'
+
+#
+cd $1
+
+#
+echo 'Removing unwanted files'
+rm -rf client/*
+rm -rf server/*
+
+#
+echo 'Create client index.html'
+cat >client/index.html <<EOL
+<body>
+	<center>Angular 2 & Meteor is ready</center>
+	<center>Built something AMAZING!</center>
+	<app></app>
+</body>
+EOL
+
+echo 'Create client app.html'
+cat >client/app.html <<EOL
+<h1>My Application Component Body</h1>
+EOL
+
+#
+echo 'Create default client app.ts'
+cat >client/app.ts <<EOL
+import 'reflect-metadata';
+import 'zone.js./dist/zone';
+import {Component} from '@angular/core';
+import {bootstrap} from '@angular2-meteor-auto-bootstrap';
+
+@Component({
+	selector: 'app',
+	templateUrl: 'client/app.html'
+})
+
+class ClassName {
+	// Properties
+	constructor() {
+		// Code
+	}
+
+}
+
+bootstrap(ClassName);
+EOL
+
+echo 'Create default server main.ts'
+cat >server/main.ts <<EOL
+// Meteor
+import {Meteor} from 'meteor/meteor';
+
+// Load others module here
+// import {myModule} form './my-module.ts';
+
+// Startup
+// Meteor.startUp(aModule);
+EOL
+
+#
+echo 'Remove blaze-html-templates'
+meteor remove blaze-html-templates
+
+#
+echo 'Installing TypeScript, Angular 2 runtime, compilers, and templates'
+meteor add angular2-compilers barbatus:angular2-runtime
+meteor npm install angular2-meteor @angular/platform-browser-dynamic --save
+meteor npm install angular2-meteor-auto-bootstrap --save
+meteor npm install @angular2d/router-deprecated --save
+meteor npm install
+
+echo 'Create default tsconfig.json'
+cat >tsconfig.json <<EOL
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"module": "commonjs",
+		"target": "es5",
+		"isolatedModules": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"removeComments": false,
+		"noImplicitAny": false,
+		"sourceMap": true
+	},
+	"filesGlob": [
+		"client/**/*.ts",
+		"server/**/*.ts",
+		"typings/**/*.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
+EOL
+
+#
+echo 'Setting up typings'
+npm install typings -g
+typings init
+typings install es6-promise --save
+typings install registry:env/meteor --ambient
+typings install es6-shim --ambient --save
+
+echo 'Done!'
