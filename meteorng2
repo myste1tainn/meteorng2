@@ -119,4 +119,18 @@ typings install es6-shim --ambient --save
 echo 'Installing Twitter Bootstrap 3'
 meteor add twbs:bootstrap
 
-echo 'Done!'
+echo 'Installing User Accounts System'
+meteor add accounts-password
+meteor npm install angular2-meteor-accounts-ui --save
+cat >client/main.scss <<EOL
+@import "{}/node_modules/angular2-meteor-accounts-ui/build/login-buttons.scss";
+EOL
+
+echo 'Installing LESS/SASS Compiler'
+meteor add fourseven:scss
+
+echo 'Installing FontAwesome'
+meteor add fortawesome:fontawesome
+
+echo 'Installation Done!'
+echo 'Built something AMAZING!'
